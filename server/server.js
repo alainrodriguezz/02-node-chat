@@ -21,16 +21,11 @@ io.on('connection',(socket)=>{
 
 
 
-	socket.on('createMessage',(message)=>{
-		console.log('createMessage',message)
-
+	socket.on('createMessage',(msg)=>{
+		console.log('createMessage',msg)
+		io.emit('newMessage',msg)
 	})
 
-	socket.emit('newMessage',{
-		from:'Sebas',
-		text:'See you',
-		createdAt:123
-	})
 
 
 

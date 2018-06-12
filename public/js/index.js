@@ -3,7 +3,6 @@ const socket = io()
 socket.on('connect',function(){
 	console.log('connected to server')
 
-	createMessage('Este es mi mensaje de prueba')
 })
 
 
@@ -25,7 +24,6 @@ socket.on('disconnect',function(){
 })
 
 var createMessage = function(msg){
-	console.log('message created')
 	socket.emit('createMessage',msg)
 }
 
