@@ -18,9 +18,21 @@ app.use(express.static(publicPath))
 io.on('connection',(socket)=>{
 	console.log('new SocketIO connection')
 
+	//Welcome user (to me)
+	socket.emit('newMessage',{
+		from:'Admin',
+		text:'Welcome to the Chat',
+		createdAt:new Date().getTime()
+	})
 
+	//Welcome user (to everyone)
+	socket.broadcast.emit('newMessage',{
+		from:'Admin',
+		text:'A new user has joined',
+		createdAt:new Date().getTime()
+	})
 
-
+	//Send message in Chat
 	socket.on('createMessage',(message)=>{
 		console.log('createMessage',message)
 		io.emit('newMessage',{
