@@ -23,7 +23,10 @@ socket.on('disconnect',function(){
 	console.log('disconnected from server')
 })
 
-var createMessage = function(msg){
-	socket.emit('createMessage',msg)
+var createMessage = function(from,text){
+	socket.emit('createMessage',{
+		from:from,
+		text:text
+	})
 }
 
