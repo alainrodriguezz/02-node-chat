@@ -1,5 +1,6 @@
 const socket = io()
 
+
 socket.on('connect',function(){
 	console.log('connected to server')
 
@@ -10,19 +11,21 @@ socket.on('connect',function(){
 
 
 socket.on('newMessage',function(msg){
+	var formattedTime = moment(msg.createdAt).format('h:mm a')
 
 	var li = $('<li></li>')
-	li.text(`${msg.from}: ${msg.text}`)
+	li.text(`${msg.from} ${formattedTime} : ${msg.text}`)
 
 	$('#messages').append(li)
 })
 
 socket.on('newLocationMessage',function(msg){
 
+	var formattedTime = moment(msg.createdAt).format('h:mm a')
 	var li = $('<li></li>')
 	var a = $(`<a target="_blank" href="${msg.url}">This is my location</a>`)
 
-	$(li).text(`${msg.from}: `)
+	$(li).text(`${msg.from} ${formattedTime}: `)
 	$(li).append(a)
 	$('#messages').append(li)
 
