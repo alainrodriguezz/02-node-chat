@@ -3,7 +3,16 @@ const socket = io()
 
 socket.on('connect',function(){
 	console.log('connected to server')
+	var params = $.deparam(window.location.search)
 
+	socket.emit('join',params,function(err){
+		if(err)	{
+			alert(err)
+			window.location.href = '/'
+		}else{
+			console.log('no error')
+		}
+	})
 })
 
 
@@ -38,6 +47,17 @@ socket.on('newLocationMessage',function(msg){
 
 	$('#messages').append(html)
 	scrollToBottom()
+})
+
+socket.on('updateUserList',function(users){
+	console.log('UsersList',users)
+
+	var ol = $('<ol></ol>')
+
+	users.forEach(function(user){
+		ol.append($('<li></li>').text(user))
+	})
+	$('#users').html(ol)
 })
 
 
