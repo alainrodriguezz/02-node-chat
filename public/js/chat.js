@@ -4,6 +4,7 @@ const socket = io()
 socket.on('connect',function(){
 	console.log('connected to server')
 	var params = $.deparam(window.location.search)
+	$('#room-name').text(params.room.trim().toLowerCase())
 
 	socket.emit('join',params,function(err){
 		if(err)	{

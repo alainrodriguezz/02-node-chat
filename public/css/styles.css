@@ -28,3 +28,6 @@ button,button:hover{border:none;color:#fff;padding:10px}
 
 
 .chat__footer button{margin-right:0}}
+
+#room-name{text-transform:capitalize;}
+#create-new-room-option{display:none;}

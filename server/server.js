@@ -2,7 +2,7 @@ const path = require('path')
 const express = require('express')
 const socketIO = require('socket.io')
 const http = require('http')
-const {isRealString} = require('./utils/validation')
+const {isRealString,cleanRoomName} = require('./utils/validation')
 const {Users} = require('./utils/users')
 const {generateMessage,generateLocationMessage} = require('./utils/message.js')
 
@@ -28,7 +28,10 @@ io.on('connection',(socket)=>{
 		if(!isRealString(params.name) || !isRealString(params.room)){
 			return callback('Name and Room Name are required')
 		}
-
+		if(users.getUserByName(params.name)){
+			return callback('That Name is already taken')
+		}
+		params.room = cleanRoomName(params.room)
 		//Join Room
 		socket.join(params.room)
 
@@ -45,6 +48,12 @@ io.on('connection',(socket)=>{
 
 
 		callback()
+	})
+
+	socket.on('getRooms',()=>{
+
+		var rooms = users.getRoomList();
+		socket.emit('getRooms',rooms)
 	})
 
 
@@ -75,9 +84,6 @@ io.on('connection',(socket)=>{
 	socket.on('updateUserList',()=>{
 
 	})
-
-
-
 
 
 
