@@ -70,8 +70,10 @@ $(function(){
 		console.log('here')
 		if(!navigator.geolocation) return alert('Geolocation not supported')
 
+		locationBtn.attr('disabled','disabled').text('Sending location..')
 		navigator.geolocation.getCurrentPosition(function(position){
 			console.log(position)
+			locationBtn.removeAttr('disabled').text('Send location')
 
 			socket.emit('createLocationMessage',{
 				lat:position.coords.latitude,
