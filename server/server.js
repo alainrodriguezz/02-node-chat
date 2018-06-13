@@ -10,7 +10,7 @@ const app = express()
 const server = http.createServer(app)
 const io = socketIO(server)
 
-const {generateMessage} = require('./utils/message.js')
+const {generateMessage,generateLocationMessage} = require('./utils/message.js')
 
 app.use(express.static(publicPath))
 
@@ -30,6 +30,11 @@ io.on('connection',(socket)=>{
 		console.log('createMessage',message)
 		io.emit('newMessage',generateMessage(message.from,message.text))
 		callback()
+	})
+
+	//Send location
+	socket.on('createLocationMessage',(location,callback)=>{
+		io.emit('newLocationMessage',generateLocationMessage('Admin',location.lat,location.lng))
 	})
 
 
