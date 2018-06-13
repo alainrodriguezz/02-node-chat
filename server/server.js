@@ -50,14 +50,25 @@ io.on('connection',(socket)=>{
 
 	//Send message in Chat
 	socket.on('createMessage',(message,callback)=>{
-		console.log('createMessage',message)
-		io.emit('newMessage',generateMessage(message.from,message.text))
-		callback()
+		var user = users.getUser(socket.id)
+		console.log('llegamos aca',user)
+		if(user && isRealString(message.text)){
+			console.log('paso')
+			io.to(user.room).emit('newMessage',generateMessage(user.name,message.text))	
+			callback()
+		}else{
+			console.log('no paso')
+		}
 	})
 
 	//Send location
 	socket.on('createLocationMessage',(location,callback)=>{
-		io.emit('newLocationMessage',generateLocationMessage('Admin',location.lat,location.lng))
+		var user = users.getUser(socket.id)
+
+		if(user){
+			io.to(user.room).emit('newLocationMessage',generateLocationMessage(user.name,location.lat,location.lng))
+		}
+		
 	})
 
 	//Update users online

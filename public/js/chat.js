@@ -75,9 +75,8 @@ socket.on('disconnect',function(){
 	console.log('disconnected from server')
 })
 
-var createMessage = function(from,text){
+var createMessage = function(text){
 	socket.emit('createMessage',{
-		from:from,
 		text:text
 	},function(data){
 
@@ -92,7 +91,7 @@ $(function(){
 	$('#message-form').on('submit',function(e){
 		e.preventDefault()
 
-		createMessage('User',$('[name=message]').val())
+		createMessage($('[name=message]').val())
 		$('[name=message]').val('')
 	})
 
